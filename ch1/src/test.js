@@ -61,6 +61,7 @@ var gangwon = {
 }
 */
 
+/*
 var gangwon = {
 	 resorts: ["용평", "평창", "강촌"]
 	,print : function(delay=1000){
@@ -75,7 +76,44 @@ var gangwon = {
 }
 
 gangwon.print();
+*/
 
+// 2.4.1 구조 분해를 사용한 타입
+var sandwich = {
+	 bread : "더치 크런치"
+	,meat: "참치"
+};
+
+var {bread, meat} = sandwich;
+
+meat = "닭고기"
+console.log(bread + " " + meat);
+console.log(sandwich.bread + " " + sandwich.meat);
+
+
+var lordify = ({firstname}) => {
+
+	console.log('켄터베리의 ' + firstname);
+}
+
+/*
+var lordify = (regularPerson) => {
+
+	console.log('켄터베리의 ' + regularPerson.firstname);
+}*/
+
+var regularPerson = {
+	firstname : "현석"
+}
+
+lordify(regularPerson);
+
+var [firstResort,secondResort] = ["용평", "평창", "강촌"];
+
+console.log(firstResort);
+console.log(secondResort);
+
+// 2.4.2 객체 리터럴 개선
 
 
 
