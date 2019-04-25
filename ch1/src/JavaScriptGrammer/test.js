@@ -116,5 +116,128 @@ console.log(secondResort);
 // 2.4.2 객체 리터럴 개선
 
 
+var name = "탈락";
+var elevation = 9738;
+
+var funHike = {name, elevation};
+
+console.log(funHike);
+
+/*
+const skier = {
+	name
+	,sound
+	,powerYell(){
+		let yell = this.sound.toUpperCase();
+		console.log(yell);
+
+	}
+	,speed(mph){
+		this.speed = mph;
+		console.log(mph);
+	}
+
+
+}
+
+
+console.log(skier);
+*/
+
+//2.4.3. 스프레드 연산자
+var peaks = [1,2,3,4];
+var seoraksan = [...peaks];
+
+console.log(seoraksan.join(', '));
+
+peaks.reverse();
+
+console.log(peaks);
+
+// 2.5. 프라미스
+/*
+function getData() {
+  return new Promise(function (resolve, reject) {
+    var data = 100;
+    resolve(data);
+  });
+}
+
+// resolve()의 결과 값 data를 resolvedData로 받음
+getData().then(function (resolvedData) {
+  console.log(resolvedData); // 100
+});
+*/
+
+/*
+function getData() {
+  return new Promise(function (resolve, reject) {
+    reject(new Error("Request is failed"));
+  });
+}
+
+// reject()의 결과 값 Error를 err에 받음
+getData().then().catch(function (err) {
+  console.log(err); // Error: Request is failed
+});
+*/
+
+// 2.6 클레스
+class Vacation{
+
+	constructor(destination, length){
+
+		this.destination = destination;
+		this.length = length;
+
+	}
+
+	print(){
+		console.log(this.destination);
+	}
+
+}
+
+const trip = new Vacation("칠레 산디아고", 7);
+
+trip.print();
+
+class Expedition extends Vacation{
+
+	constructor(destination, length, gear){
+		super(destination, length);
+		this.gear = gear;
+
+	}
+
+	print(){
+		console.log(this.destination + ", " + this.gear);
+	}
+
+}
+
+new Expedition("칠레 산디아고", 7, ["선글라스", "카메라"]).print();
+
+//2.7 ES6 모듈 - 바벨에서 테스팅 가능
+/*
+import {log} from './text-helper.js';
+
+log();
+*/
+
+/*
+//2.8 커먼 js
+const {callback} = require('./text-helper2.js');
+*/
+
+
+
+
+
+
+
+
+
+
 
 
