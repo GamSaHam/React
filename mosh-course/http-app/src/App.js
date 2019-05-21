@@ -1,26 +1,68 @@
 import React, { Component } from "react";
+import { ToastContainer } from "react-toastify";
+import http from "./services/httpService";
+import config from "./config.json";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
   state = {
     posts: []
   };
 
-  handleAdd = () => {
-    console.log("Add");
+  async componentDidMount() {
+    // pending > resolved (success) OR rejected (failured)
+    const { data: posts } = await http.get(config.apiEndpoint);
+
+    this.setState({ posts });
+  }
+
+  handleAdd = async () => {
+    const obj = { title: "a", body: "b" };
+
+    const { data: post } = await http.post(config.apiEndpoint, obj);
+
+    const posts = [post, ...this.state.posts];
+    this.setState({ posts });
   };
 
-  handleUpdate = post => {
-    console.log("Update", post);
+  handleUpdate = async post => {
+    post.title = "UPDATED";
+    await http.put(config.apiEndpoint + "/" + post.id, post);
+
+    const posts = [...this.state.posts];
+    const index = posts.indexOf(post);
+    posts[index] = { ...post };
+
+    this.setState({ posts });
   };
 
-  handleDelete = post => {
-    console.log("Delete", post);
+  handleDelete = async post => {
+    const originalPosts = this.state.posts;
+
+    const posts = this.state.posts.filter(p => p.id !== post.id);
+    this.setState({ posts });
+
+    try {
+      await http.delete("s" + config.apiEndpoint + "/" + post.id);
+    } catch (ex) {
+      // Expected (404: not found, 400: bad request) - CLIENT ERRORS
+      // - Display a specific error message
+      if (ex.response && ex.response.status === 404)
+        alert("This post has already been deleted.");
+
+      //
+      // Unexpected (network down, server down, db down, bug)
+      // - Log them
+      // - Display a generic and friendly error message
+      this.setState({ posts: originalPosts });
+    }
   };
 
   render() {
     return (
       <React.Fragment>
+        <ToastContainer />
         <button className="btn btn-primary" onClick={this.handleAdd}>
           Add
         </button>
